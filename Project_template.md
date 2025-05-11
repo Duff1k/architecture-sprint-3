@@ -64,53 +64,48 @@
 
 ### 5. Визуализация контекста системы — диаграмма С4
 
-```markdown
 [Диаграмма контекста C4](diagram/context/context-c4.puml)
-```
 
 # Задание 2. Проектирование микросервисной архитектуры
 
 **Диаграмма контейнеров (Containers)**
 
-```markdown
+
 [Диаграмма контейнеров С4](diagram/container/container-c4.puml)
-```
+
 
 **Диаграмма компонентов (Components)**
 
-```markdown
 [Диаграмма компонентов микросервиса подключения и мониторинга устройств](diagram/component/components-dvm-c4.puml)
-```
-```markdown
+
+
 [Диаграмма компонентов микросервиса управлением ворот](diagram/component/components-gates-c4.puml)
-```
-```markdown
+
+
 [Диаграмма компонентов микросервиса управлением отоплением](diagrmm/component/components-heat-c4.puml)
-```
-```markdown
+
+
 [Диаграмма компонентов микросервиса управления освещением](diagram/component/components-light-c4.puml)
-```
+
 
 **Диаграмма кода (Code)**
 
-```markdown
+
 [Диаграмма кода микросервиса управления отоплением](diagram/code/code-heat-c4.puml)
-```
-```markdown
+
+
 [Диаграмма кода микросервиса управлением ворот](diagram/code/code-gates-c4.puml)
-```
-```markdown
+
 [Диаграмма кода микросервиса подключения и мониторинга устройств](diagram/code/code-dvm-c4.puml)
-```
-```markdown
+
 [Диаграмма кода микросервиса управления освещением](diagram/code/code-light-c4.puml)
-```
+
 
 # Задание 3. Разработка ER-диаграммы
 
-```markdown
+
 [ER-диаграмма C4](diagram/er/er.puml)
-```
+
 
 # ❌ Задание 4. Создание и документирование API
 
@@ -124,10 +119,8 @@
 
 ### 2. Документация API
 
-```markdown
 [Документация для синхронного взаимодействия](openApi.yaml)
-```
 
-```markdown
+
+
 [Документация для асинхронного взаимодействия](asyncApi.yaml)
-```
