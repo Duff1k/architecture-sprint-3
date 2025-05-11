@@ -1,0 +1,31 @@
+@startuml
+class GateController {
+  +openGate(gateId: UUID): Response
+  +closeGate(gateId: UUID): Response
+}
+
+class GateService {
+  +openGate(userId: UUID, gateId: UUID): void
+  +closeGate(userId: UUID, gateId: UUID): void
+  -isAuthorizedToControl(...)
+  -logGateAction(...)
+}
+
+class GateDeviceClient {
+  +sendGateCommand(gateId: UUID, command: GateCommand): CommandResult
+}
+
+class GateRepository {
+  +findById(gateId: UUID): Optional<Gate>
+  +save(gate: Gate): void
+}
+
+class KafkaGateProducer {
+  +publish(event: GateEvent): void
+}
+
+GateController --> GateService
+GateService --> GateDeviceClient
+GateService --> GateRepository
+GateService --> KafkaGateProducer
+@enduml

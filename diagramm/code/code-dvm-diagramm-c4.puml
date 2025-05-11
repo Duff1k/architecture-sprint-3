@@ -1,0 +1,26 @@
+@startuml
+class DeviceController {
+  +registerDevice(request: RegisterDeviceRequest): Response
+  +getDeviceStatus(deviceId: UUID): DeviceStatusResponse
+}
+
+class DeviceService {
+  +registerDevice(userId: UUID, deviceInfo: DeviceInfo): void
+  +getDeviceStatus(deviceId: UUID): DeviceStatus
+  -validateDevice(...)
+  -notifyMonitoring(...)
+}
+
+class DeviceRepository {
+  +save(device: Device): void
+  +findById(deviceId: UUID): Optional<Device>
+}
+
+class KafkaDeviceProducer {
+  +publish(event: DeviceEvent): void
+}
+
+DeviceController --> DeviceService
+DeviceService --> DeviceRepository
+DeviceService --> KafkaDeviceProducer
+@enduml

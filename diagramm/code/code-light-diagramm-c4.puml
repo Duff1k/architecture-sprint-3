@@ -1,0 +1,31 @@
+@startuml
+class LightingController {
+  +turnOnLight(roomId: UUID): Response
+  +turnOffLight(roomId: UUID): Response
+}
+
+class LightingService {
+  +turnOnLight(userId: UUID, roomId: UUID): void
+  +turnOffLight(userId: UUID, roomId: UUID): void
+  -checkRoomAccess(...)
+  -auditAction(...)
+}
+
+class LightingDeviceClient {
+  +sendLightCommand(roomId: UUID, on: boolean): CommandResult
+}
+
+class LightingRepository {
+  +findByRoomId(roomId: UUID): Optional<LightDevice>
+  +save(device: LightDevice): void
+}
+
+class KafkaLightingProducer {
+  +publish(event: LightingEvent): void
+}
+
+LightingController --> LightingService
+LightingService --> LightingDeviceClient
+LightingService --> LightingRepository
+LightingService --> KafkaLightingProducer
+@enduml
