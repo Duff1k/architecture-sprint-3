@@ -1,0 +1,16 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(deviceService, "Device Management Service", "Spring Boot") {
+    Component(restApi, "REST Controller", "Spring Web", "Обработка внешних HTTP-запросов")
+    Component(deviceHandler, "Device Command Handler", "Java", "Обработка команд подключения и обновления")
+    Component(deviceStateManager, "Device State Manager", "Java", "Отслеживание состояния устройства")
+    Component(deviceRepository, "Device Repository", "Spring Data JPA", "Работа с базой данных")
+    Component(kafkaListener, "Kafka Listener", "Spring Kafka", "Подписка на события")
+}
+
+Rel(restApi, deviceHandler, "Delegates to")
+Rel(deviceHandler, deviceStateManager, "Uses")
+Rel(deviceHandler, deviceRepository, "Persists to")
+Rel(kafkaListener, deviceStateManager, "Updates state")
+@enduml

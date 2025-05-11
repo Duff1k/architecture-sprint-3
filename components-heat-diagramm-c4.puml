@@ -1,0 +1,16 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(heatingService, "Heating Service", "Spring Boot") {
+    Component(restApi, "HeatingController", "Spring Web", "Обработка HTTP-запросов управления отоплением")
+    Component(heatingCommandHandler, "HeatingCommandHandler", "Java", "Обработка команд включения/выключения и установки температуры")
+    Component(heatingStateService, "HeatingStateService", "Java", "Хранение и управление текущим состоянием отопления")
+    Component(temperatureMonitor, "TemperatureMonitor", "Spring Kafka", "Получение данных с датчиков температуры через Kafka")
+    Component(heatingRepository, "HeatingRepository", "Spring Data JPA", "Доступ к данным о настройках и истории отопления")
+}
+
+Rel(restApi, heatingCommandHandler, "Delegates commands")
+Rel(heatingCommandHandler, heatingStateService, "Updates state")
+Rel(heatingCommandHandler, heatingRepository, "Persists data")
+Rel(temperatureMonitor, heatingStateService, "Feeds temperature data")
+@enduml

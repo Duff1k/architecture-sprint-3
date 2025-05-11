@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+
+Person(user, "Пользователь", "Управляет домом через мобильное или веб-приложение")
+
+System_Boundary(system, "Умный дом SaaS") {
+    Container(apiGateway, "API Gateway", "Spring Cloud Gateway", "Единая точка входа во все сервисы")
+    Container(heatingService, "Heating Service", "Spring Boot", "Управление отоплением")
+    Container(lightingService, "Lighting Service", "Spring Boot", "Управление освещением")
+    Container(gateControlService, "Gate Control Service", "Spring Boot", "Управление воротами")
+    Container(deviceManagementService, "Device Management Service", "Spring Boot", "Подключение и мониторинг устройств")
+    Container(identityService, "Identity Service", "Keycloak", "Аутентификация и авторизация")
+    Container(automationService, "Automation Service", "Spring Boot", "Пользовательские сценарии")
+    Container(kafka, "Kafka", "Apache Kafka", "Асинхронная шина данных")
+    ContainerDb(heatingDb, "Heating DB", "PostgreSQL")
+    ContainerDb(deviceDb, "Device DB", "PostgreSQL")
+    ContainerDb(authDb, "Identity DB", "PostgreSQL")
+}
+
+Rel(user, apiGateway, "REST/HTTPS")
+Rel(apiGateway, heatingService, "REST")
+Rel(apiGateway, lightingService, "REST")
+Rel(apiGateway, gateControlService, "REST")
+Rel(apiGateway, deviceManagementService, "REST")
+Rel(apiGateway, identityService, "OAuth2 / OIDC")
+Rel(heatingService, kafka, "Публикует события")
+Rel(kafka, heatingService, "Слушает события")
+Rel(deviceManagementService, kafka, "Публикует и слушает")
+Rel(heatingService, heatingDb, "JPA")
+Rel(deviceManagementService, deviceDb, "JPA")
+Rel(identityService, authDb, "JPA")
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(user, "Пользователь", "Владелец умного дома")
+System(system, "Монолитное приложение 'Тёплый дом'", "Управление отоплением и получение температуры")
+
+System_Ext(sensor, "Физические датчики и реле", "Температурные сенсоры, исполнительные устройства")
+System_Ext(postgres, "PostgreSQL", "База данных состояния отопления")
+
+Rel(user, system, "Использует через веб-клиент")
+Rel(system, sensor, "Опрос и управление", "HTTP-запросы")
+Rel(system, postgres, "Чтение/Запись", "JPA")
+
+@enduml

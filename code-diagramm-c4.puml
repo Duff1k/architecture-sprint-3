@@ -1,0 +1,31 @@
+@startuml
+class HeatingController {
+  +turnOnHeating(request: HeatingRequest): Response
+  +turnOffHeating(request: HeatingRequest): Response
+}
+
+class HeatingService {
+  +turnOnHeating(userId: UUID, roomId: UUID): void
+  +turnOffHeating(userId: UUID, roomId: UUID): void
+  -validateUserAccess(...)
+  -logEvent(...)
+}
+
+class HeatingDeviceClient {
+  +sendCommand(command: HeatingCommand): CommandResult
+}
+
+class HeatingRepository {
+  +findByRoomId(roomId: UUID): Optional<HeatingDevice>
+  +save(device: HeatingDevice): void
+}
+
+class KafkaProducer {
+  +publish(event: HeatingEvent): void
+}
+
+HeatingController --> HeatingService
+HeatingService --> HeatingDeviceClient
+HeatingService --> HeatingRepository
+HeatingService --> KafkaProducer
+@enduml
