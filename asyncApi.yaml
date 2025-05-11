@@ -1,0 +1,26 @@
+asyncapi: '2.0.0'
+info:
+  title: "Heating Service Events"
+  version: "1.0.0"
+  description: "Events for heating system changes"
+servers:
+  production:
+    url: "kafka://localhost:9092"
+    protocol: "kafka"
+channels:
+  heatingStatusChanged:
+    description: "Channel for heating system status changes"
+    subscribe:
+      operationId: "onHeatingSystemStatusChanged"
+      message:
+        contentType: "application/json"
+        payload:
+          type: "object"
+          properties:
+            systemId:
+              type: "string"
+            status:
+              type: "boolean"
+            temperature:
+              type: "number"
+              format: "double"
