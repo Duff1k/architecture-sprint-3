@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Smart Home API
+servers:
+  - url: https://api.smart-home.com
+    description: Продакшн сервер
+paths:
+  /heating/status:
+    get:
+      summary: Получить статус отопления
+      operationId: getHeatingStatus
+      tags:
+        - Heating Service
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeatingStatus'
+  /lighting/{lightId}/toggle:
+    post:
+      summary: Переключить состояние света
+      operationId: toggleLight
+      tags:
+        - Lighting Service
+      parameters:
+        - name: lightId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Свет переключен
+  /gates/{gateId}/status:
+    get:
+      summary: Получить статус ворот
+      operationId: getGateStatus
+      tags:
+        - Gate Control Service
+      parameters:
+        - name: gateId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Статус ворот
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GateStatus'
+  /devices/{deviceId}/state:
+    get:
+      summary: Получить состояние устройства
+      operationId: getDeviceState
+      tags:
+        - Device Management Service
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Состояние устройства
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceState'
+components:
+  schemas:
+    HeatingStatus:
+      type: object
+      properties:
+        temperature:
+          type: number
+          format: float
+        active:
+          type: boolean
+    GateStatus:
+      type: object
+      properties:
+        gateId:
+          type: string
+        isOpen:
+          type: boolean
+    DeviceState:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        online:
+          type: boolean
+        lastSeen:
+          type: string
+          format: date-time

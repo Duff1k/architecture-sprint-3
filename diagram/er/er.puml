@@ -1,0 +1,97 @@
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+
+hide methods
+hide stereotypes
+
+table(Device) {
+  primary_key(id): UUID
+  name: String
+  type: String
+  location: String
+  status: String
+  firmwareVersion: String
+  lastSeen: Timestamp
+}
+
+table(TemperatureSensorData) {
+  primary_key(id): UUID
+  deviceId: UUID
+  temperature: Float
+  timestamp: Timestamp
+}
+
+table(HeatingZone) {
+  primary_key(id): UUID
+  name: String
+  targetTemperature: Float
+  mode: String
+}
+
+table(HeatingState) {
+  primary_key(id): UUID
+  zoneId: UUID
+  currentTemperature: Float
+  heaterStatus: String
+  updatedAt: Timestamp
+}
+
+table(LightDevice) {
+  primary_key(id): UUID
+  deviceId: UUID
+  brightness: Int
+  color: String
+  isOn: Boolean
+}
+
+table(LightingScenario) {
+  primary_key(id): UUID
+  name: String
+  triggerTime: Timestamp
+  repeat: Boolean
+}
+
+table(LightingScenarioDevice) {
+  primary_key(id): UUID
+  scenarioId: UUID
+  lightDeviceId: UUID
+  brightness: Int
+  color: String
+  isOn: Boolean
+}
+
+table(Gate) {
+  primary_key(id): UUID
+  name: String
+  location: String
+  isOpen: Boolean
+  lastActionTime: Timestamp
+}
+
+table(UserAccount) {
+  primary_key(id): UUID
+  username: String
+  email: String
+  role: String
+  enabled: Boolean
+}
+
+table(DeviceOwnership) {
+  primary_key(id): UUID
+  userId: UUID
+  deviceId: UUID
+  assignedAt: Timestamp
+}
+
+DeviceOwnership::userId --> UserAccount::id
+DeviceOwnership::deviceId --> Device::id
+
+TemperatureSensorData::deviceId --> Device::id
+
+HeatingState::zoneId --> HeatingZone::id
+
+LightDevice::deviceId --> Device::id
+LightingScenarioDevice::scenarioId --> LightingScenario::id
+LightingScenarioDevice::lightDeviceId --> LightDevice::id
+@enduml

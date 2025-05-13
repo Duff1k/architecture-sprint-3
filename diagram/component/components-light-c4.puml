@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(lightingService, "Lighting Service", "Spring Boot") {
+    Component(restApi, "LightingController", "Spring Web", "Обработка HTTP-запросов управления освещением")
+    Component(scenarioEngine, "LightingScenarioEngine", "Java", "Обработка сценариев освещения по расписанию и условиям")
+    Component(lightCommandDispatcher, "LightCommandDispatcher", "Java", "Отправка команд на устройства")
+    Component(lightingRepository, "LightingDeviceRepository", "Spring Data JPA", "Хранение информации об устройствах освещения")
+}
+
+Rel(restApi, scenarioEngine, "Delegates scenario management")
+Rel(restApi, lightCommandDispatcher, "Delegates control commands")
+Rel(scenarioEngine, lightCommandDispatcher, "Triggers actions")
+Rel(lightCommandDispatcher, lightingRepository, "Reads device info")
+@enduml

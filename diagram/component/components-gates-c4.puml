@@ -1,0 +1,16 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(gateControlService, "Gate Control Service", "Spring Boot") {
+    Component(restApi, "GateController", "Spring Web", "REST API для управления воротами")
+    Component(gateCommandHandler, "GateCommandHandler", "Java", "Обработка команд открытия/закрытия ворот")
+    Component(gateStateTracker, "GateStateTracker", "Java", "Мониторинг и обновление состояния ворот")
+    Component(gateEventPublisher, "GateEventPublisher", "Spring Kafka", "Публикация событий в Kafka")
+    Component(gateRepository, "GateRepository", "Spring Data JPA", "Хранение состояния ворот")
+}
+
+Rel(restApi, gateCommandHandler, "Sends commands")
+Rel(gateCommandHandler, gateStateTracker, "Updates state")
+Rel(gateCommandHandler, gateRepository, "Persists changes")
+Rel(gateCommandHandler, gateEventPublisher, "Publishes events")
+@enduml
